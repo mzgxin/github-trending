@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub热门项目 - 每日发现优质开源项目</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/v4-shims.min.css" rel="stylesheet">
+    <meta name="description" content="每日精选GitHub星标最多的开源项目，帮你发现最优质的技术资源和开发工具">
+    <meta name="keywords" content="GitHub,开源项目,热门项目,开发者工具,技术资源,开源软件">
+    <meta name="author" content="GitHub热门项目">
+    <meta property="og:title" content="GitHub热门项目 - 每日发现优质开源项目">
+    <meta property="og:description" content="每日精选GitHub星标最多的开源项目，帮你发现最优质的技术资源和开发工具">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github-trending.example.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="GitHub热门项目 - 每日发现优质开源项目">
+    <meta name="twitter:description" content="每日精选GitHub星标最多的开源项目，帮你发现最优质的技术资源和开发工具">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        github: '#181717',
+                        star: '#F1C40F',
+                        python: '#3776AB',
+                        javascript: '#F7DF1E',
+                        java: '#007396',
+                        go: '#00ADD8',
+                        php: '#777BB4',
+                        cpp: '#00599C',
+                        csharp: '#239120',
+                        ruby: '#CC342D',
+                        swift: '#FA7343',
+                        rust: '#DEA584'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'bounce-gentle': 'bounceGentle 2s infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        bounceGentle: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .glass-effect {
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+            .project-card {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .project-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            }
+            .language-badge {
+                transition: all 0.2s ease;
+            }
+            .language-badge:hover {
+                transform: scale(1.05);
+            }
+            .gradient-text {
+                background: linear-gradient(135deg, #165DFF, #8B5CF6);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            .star-animation {
+                animation: bounceGentle 2s infinite;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-inter">
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <i class="fab fa-github text-3xl text-github"></i>
+                    <h1 class="text-2xl font-bold gradient-text">GitHub热门项目</h1>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-gray-600 hover:text-primary transition-colors font-medium">首页</a>
+                    <a href="#trending" class="text-gray-600 hover:text-primary transition-colors font-medium">热门项目</a>
+                    <a href="#categories" class="text-gray-600 hover:text-primary transition-colors font-medium">分类浏览</a>
+                    <a href="#about" class="text-gray-600 hover:text-primary transition-colors font-medium">关于我们</a>
+                    <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-300">
+                        <i class="fas fa-bell mr-2"></i>订阅更新
+                    </button>
+                </div>
+                <button class="md:hidden text-gray-800" id="mobile-menu-btn">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 移动端菜单 -->
+    <div class="fixed inset-0 z-40 bg-black/50 transform translate-x-full transition-transform duration-300" id="mobile-menu-overlay">
+        <div class="fixed right-0 top-0 h-full w-64 bg-white shadow-2xl transform translate-x-full transition-transform duration-300" id="mobile-menu">
+            <div class="p-6">
+                <div class="flex justify-end mb-8">
+                    <button id="close-mobile-menu" class="text-gray-600 hover:text-gray-800">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <ul class="space-y-4">
+                    <li><a href="#home" class="block text-gray-800 hover:text-primary transition-colors py-2">首页</a></li>
+                    <li><a href="#trending" class="block text-gray-800 hover:text-primary transition-colors py-2">热门项目</a></li>
+                    <li><a href="#categories" class="block text-gray-800 hover:text-primary transition-colors py-2">分类浏览</a></li>
+                    <li><a href="#about" class="block text-gray-800 hover:text-primary transition-colors py-2">关于我们</a></li>
+                    <li class="pt-4 border-t border-gray-200">
+                        <button class="w-full bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
+                            <i class="fas fa-bell mr-2"></i>订阅更新
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 英雄区域 -->
+    <section id="home" class="bg-gradient-to-br from-primary via-blue-600 to-purple-600 text-white py-20 relative overflow-hidden">
+        <!-- 背景装饰 -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-10 left-10 w-32 h-32 bg-white rounded-full blur-xl"></div>
+            <div class="absolute top-1/2 right-10 w-48 h-48 bg-white rounded-full blur-2xl"></div>
+            <div class="absolute bottom-10 left-1/3 w-24 h-24 bg-white rounded-full blur-lg"></div>
+        </div>
+        
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <h2 class="text-[clamp(2.5rem,6vw,4rem)] font-bold mb-6 animate-slide-up">
+                每日发现GitHub热门项目
+            </h2>
+            <p class="text-[clamp(1.1rem,2.5vw,1.5rem)] mb-12 text-blue-100 max-w-3xl mx-auto leading-relaxed animate-slide-up" style="animation-delay: 0.2s;">
+                精选每日GitHub星标最多的10个开源项目，帮你发现最优质的技术资源和开发工具
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 animate-slide-up" style="animation-delay: 0.4s;">
+                <a href="#trending" class="px-8 py-4 bg-white text-primary rounded-full font-semibold hover:shadow-2xl hover:scale-105 transition-all duration-300 shadow-lg">
+                    <i class="fas fa-rocket mr-2"></i>立即探索
+                </a>
+                <a href="#categories" class="px-8 py-4 glass-effect rounded-full text-white font-semibold hover:bg-white/20 transition-all duration-300">
+                    <i class="fas fa-th-large mr-2"></i>按分类浏览
+                </a>
+            </div>
+            
+            <!-- 更新时间显示 -->
+            <div class="mt-12 glass-effect inline-block px-6 py-3 rounded-full animate-fade-in">
+                <i class="fas fa-clock mr-2"></i>
+                <span id="last-update">今日更新时间：2026-02-25 16:30</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 统计数据 -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="animate-slide-up">
+                    <div class="text-4xl font-bold text-primary mb-2" id="total-projects">1000+</div>
+                    <div class="text-gray-600">收录项目</div>
+                </div>
+                <div class="animate-slide-up" style="animation-delay: 0.1s;">
+                    <div class="text-4xl font-bold text-green-500 mb-2" id="daily-updates">10</div>
+                    <div class="text-gray-600">每日更新</div>
+                </div>
+                <div class="animate-slide-up" style="animation-delay: 0.2s;">
+                    <div class="text-4xl font-bold text-purple-500 mb-2" id="languages">20+</div>
+                    <div class="text-gray-600">支持语言</div>
+                </div>
+                <div class="animate-slide-up" style="animation-delay: 0.3s;">
+                    <div class="text-4xl font-bold text-orange-500 mb-2" id="users">10k+</div>
+                    <div class="text-gray-600">月活跃用户</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 热门项目列表 -->
+    <section id="trending" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h3 class="text-[clamp(2rem,4vw,3rem)] font-bold text-gray-800 mb-4">今日热门项目TOP10</h3>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    基于GitHub星标数量排序，每日更新最受欢迎的开源项目
+                </p>
+            </div>
+            
+            <!-- 排序和筛选 -->
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8 space-y-4 md:space-y-0">
+                <div class="flex items-center space-x-4">
+                    <button class="flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
+                        <i class="fas fa-star text-star"></i>
+                        <span>按星标排序</span>
+                    </button>
+                    <button class="flex items-center space-x-2 text-gray-600 hover:text-primary transition-colors px-4 py-2 rounded-lg hover:bg-gray-100">
+                        <i class="fas fa-calendar"></i>
+                        <span>按更新时间</span>
+                    </button>
+                </div>
+                <div class="relative">
+                    <input type="text" placeholder="搜索项目..." 
+                           class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent w-full md:w-64">
+                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+            </div>
+            
+            <!-- 项目列表 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-container">
+                <!-- 项目卡片将通过JavaScript动态生成 -->
+                <div class="flex items-center justify-center h-64 text-gray-500" id="loading-indicator">
+                    <div class="text-center">
+                        <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
+                        <p>正在加载GitHub热门项目...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 加载更多按钮 -->
+            <div class="text-center mt-12">
+                <button class="bg-gray-100 text-gray-700 px-8 py-3 rounded-lg hover:bg-gray-200 transition-colors font-medium">
+                    <i class="fas fa-sync-alt mr-2"></i>加载更多项目
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 分类浏览 -->
+    <section id="categories" class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h3 class="text-[clamp(2rem,4vw,3rem)] font-bold text-gray-800 mb-4">按语言分类</h3>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    按编程语言浏览热门项目，找到你感兴趣的技术领域
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                <!-- Python -->
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                    <div class="w-16 h-16 bg-python/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fab fa-python text-3xl text-python"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-800 mb-2">Python</h4>
+                    <p class="text-gray-600 text-sm mb-3">1,234个项目</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-python h-2 rounded-full" style="width: 85%"></div>
+                    </div>
+                </div>
+                
+                <!-- JavaScript -->
+                <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                    <div class="w-16 h-16 bg-javascript/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fab fa-js-square text-3xl text-javascript"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-800 mb-2">JavaScript</h4>
+                    <p class="text-gray-600 text-sm mb-3">987个项目</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-javascript h-2 rounded-full" style="width: 78%"></div>
+                    </div>
+                </div>
+                
+                <!-- Java -->
+                <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                    <div class="w-16 h-16 bg-java/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fab fa-java text-3xl text-java"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-800 mb-2">Java</h4>
+                    <p class="text-gray-600 text-sm mb-3">765个项目</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-java h-2 rounded-full" style="width: 65%"></div>
+                    </div>
+                </div>
+                
+                <!-- Go -->
+                <div class="bg-gradient-to-br from-cyan-50 to-cyan-100 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                    <div class="w-16 h-16 bg-go/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fab fa-golang text-3xl text-go"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-800 mb-2">Go</h4>
+                    <p class="text-gray-600 text-sm mb-3">543个项目</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-go h-2 rounded-full" style="width: 52%"></div>
+                    </div>
+                </div>
+                
+                <!-- PHP -->
+                <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                    <div class="w-16 h-16 bg-php/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fab fa-php text-3xl text-php"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-800 mb-2">PHP</h4>
+                    <p class="text-gray-600 text-sm mb-3">321个项目</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-php h-2 rounded-full" style="width: 41%"></div>
+                    </div>
+                </div>
+                
+                <!-- C++ -->
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                    <div class="w-16 h-16 bg-cpp/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-c text-3xl text-cpp"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-800 mb-2">C/C++</h4>
+                    <p class="text-gray-600 text-sm mb-3">234个项目</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-cpp h-2 rounded-full" style="width: 38%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 查看更多语言 -->
+            <div class="text-center mt-12">
+                <button class="bg-primary text-white px-8 py-3 rounded-lg hover:bg-primary/90 transition-colors font-medium">
+                    <i class="fas fa-plus mr-2"></i>查看更多编程语言
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 订阅区域 -->
+    <section class="py-16 bg-gradient-to-r from-gray-800 to-gray-900 text-white">
+        <div class="container mx-auto px-6 text-center">
+            <h3 class="text-[clamp(2rem,4vw,3rem)] font-bold mb-4">订阅每日更新</h3>
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-8">
+                每天第一时间获取GitHub热门项目精选，不错过任何优质技术资源
+            </p>
+            <div class="max-w-md mx-auto">
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <input type="email" placeholder="输入你的邮箱地址" 
+                           class="flex-1 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-gray-700 text-white placeholder-gray-400 border border-gray-600 focus:border-transparent">
+                    <button class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-300">
+                        立即订阅
+                    </button>
+                </div>
+                <p class="text-gray-400 text-sm mt-4">
+                    <i class="fas fa-shield-alt mr-1"></i>
+                    我们尊重你的隐私，不会向第三方分享你的邮箱，随时可以取消订阅
+                </p>
+            </div>
+            
+            <!-- 订阅福利 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                <div class="text-center">
+                    <i class="fas fa-gift text-3xl text-primary mb-3"></i>
+                    <h4 class="font-bold mb-2">独家内容</h4>
+                    <p class="text-gray-300 text-sm">获取项目深度分析和使用教程</p>
+                </div>
+                <div class="text-center">
+                    <i class="fas fa-bolt text-3xl text-primary mb-3"></i>
+                    <h4 class="font-bold mb-2">及时推送</h4>
+                    <p class="text-gray-300 text-sm">每天早上8点准时发送到你的邮箱</p>
+                </div>
+                <div class="text-center">
+                    <i class="fas fa-filter text-3xl text-primary mb-3"></i>
+                    <h4 class="font-bold mb-2">个性化推荐</h4>
+                    <p class="text-gray-300 text-sm">根据你的兴趣推荐相关项目</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我们 -->
+    <section id="about" class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-[clamp(2rem,4vw,3rem)] font-bold text-gray-800 mb-6">关于GitHub热门项目</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        我们是一个专注于发现和分享优质开源项目的平台，每天从GitHub上精选星标最多的项目，
+                        为开发者提供最新、最热门的技术资源。
+                    </p>
+                    <p class="text-gray-600 mb-8 leading-relaxed">
+                        我们的使命是帮助开发者发现更多优质的开源工具和库，提高开发效率，
+                        同时也为开源项目提供更多的曝光机会，促进开源社区的发展。
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-rocket text-primary text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">每日更新</h4>
+                                <p class="text-gray-600 text-sm">每天自动更新最新的热门项目</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-star text-green-500 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">精选推荐</h4>
+                                <p class="text-gray-600 text-sm">基于星标数量和质量筛选</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-users text-purple-500 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">社区驱动</h4>
+                                <p class="text-gray-600 text-sm">由开发者社区共同维护</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="bg-gradient-to-br from-primary/10 to-purple-100 rounded-2xl p-8">
+                        <div class="text-center mb-8">
+                            <i class="fab fa-github text-6xl text-primary mb-4"></i>
+                            <h4 class="text-2xl font-bold text-gray-800 mb-2">数据统计</h4>
+                            <p class="text-gray-600">截至2026年2月</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-primary mb-2">10,000+</div>
+                                <div class="text-gray-600 text-sm">收录项目总数</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-green-500 mb-2">50,000+</div>
+                                <div class="text-gray-600 text-sm">月访问量</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-purple-500 mb-2">2,000+</div>
+                                <div class="text-gray-600 text-sm">订阅用户数</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-orange-500 mb-2">100+</div>
+                                <div class="text-gray-600 text-sm">贡献者数量</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 text-center">
+                            <a href="https://github.com" target="_blank" class="inline-flex items-center space-x-2 text-primary hover:text-primary/80 transition-colors font-medium">
+                                <i class="fab fa-github"></i>
+                                <span>在GitHub上关注我们</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- 装饰元素 -->
+                    <div class="absolute -top-4 -right-4 w-24 h-24 bg-primary/20 rounded-full blur-xl"></div>
+                    <div class="absolute -bottom-4 -left-4 w-32 h-32 bg-purple-200 rounded-full blur-xl"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <i class="fab fa-github text-2xl text-white"></i>
+                        <h4 class="text-xl font-bold">GitHub热门项目</h4>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        每日精选GitHub星标最多的开源项目，帮你发现最优质的技术资源
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-telegram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-discord text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">快速链接</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
+                        <li><a href="#trending" class="text-gray-400 hover:text-white transition-colors">热门项目</a></li>
+                        <li><a href="#categories" class="text-gray-400 hover:text-white transition-colors">分类浏览</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition-colors">关于我们</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">联系我们</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">资源</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">使用指南</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">API文档</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">贡献指南</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">隐私政策</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">服务条款</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">联系我们</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-envelope text-gray-400"></i>
+                            <span class="text-gray-400">contact@github-trending.com</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-clock text-gray-400"></i>
+                            <span class="text-gray-400">每日更新</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-server text-gray-400"></i>
+                            <span class="text-gray-400">数据来源：GitHub API</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2026 GitHub热门项目. 保留所有权利. | 数据来源于GitHub API</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-primary text-white w-12 h-12 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 opacity-0 pointer-events-none">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script>
+        // 移动端菜单控制
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMobileMenuBtn = document.getElementById('close-mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenuOverlay.classList.remove('translate-x-full');
+            mobileMenu.classList.remove('translate-x-full');
+        });
+
+        closeMobileMenuBtn.addEventListener('click', () => {
+            mobileMenuOverlay.classList.add('translate-x-full');
+            mobileMenu.classList.add('translate-x-full');
+        });
+
+        mobileMenuOverlay.addEventListener('click', (e) => {
+            if (e.target === mobileMenuOverlay) {
+                mobileMenuOverlay.classList.add('translate-x-full');
+                mobileMenu.classList.add('translate-x-full');
+            }
+        });
+
+        // 导航栏滚动效果
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-xl');
+                navbar.classList.add('bg-white/95');
+                navbar.classList.add('backdrop-blur-sm');
+            } else {
+                navbar.classList.remove('shadow-xl');
+                navbar.classList.remove('bg-white/95');
+                navbar.classList.remove('backdrop-blur-sm');
+            }
+        });
+
+        // 返回顶部按钮
+        const backToTopBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.remove('opacity-0');
+                backToTopBtn.classList.remove('pointer-events-none');
+            } else {
+                backToTopBtn.classList.add('opacity-0');
+                backToTopBtn.classList.add('pointer-events-none');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // 关闭移动端菜单
+                    mobileMenuOverlay.classList.add('translate-x-full');
+                    mobileMenu.classList.add('translate-x-full');
+                }
+            });
+        });
+
+        // GitHub项目数据
+        const githubProjects = [
+            {
+                name: 'Open Interpreter',
+                full_name: 'open-interpreter/open-interpreter',
+                stargazers_count: 125400,
+                description: '让LLMs像Python一样运行代码，实现自然语言到可执行代码的转换',
+                language: 'Python',
+                forks_count: 12300,
+                html_url: 'https://github.com/open-interpreter/open-interpreter',
+                topics: ['ai', 'llm', 'python', 'code-generation']
+            },
+            {
+                name: 'ChatGPT-Next-Web',
+                full_name: 'Yidadaa/ChatGPT-Next-Web',
+                stargazers_count: 118700,
+                description: '一键部署的ChatGPT Web界面，支持多模型、多语言、自定义插件',
+                language: 'JavaScript',
+                forks_count: 25600,
+                html_url: 'https://github.com/Yidadaa/ChatGPT-Next-Web',
+                topics: ['chatgpt', 'react', 'nextjs', 'ai', 'chatbot']
+            },
+            {
+                name: 'Stable Diffusion WebUI',
+                full_name: 'AUTOMATIC1111/stable-diffusion-webui',
+                stargazers_count: 105300,
+                description: '基于Stable Diffusion的Web界面，支持多种AI图像生成模型',
+                language: 'Python',
+                forks_count: 28400,
+                html_url: 'https://github.com/AUTOMATIC1111/stable-diffusion-webui',
+                topics: ['ai', 'stable-diffusion', 'image-generation', 'machine-learning']
+            },
+            {
+                name: 'LangChain',
+                full_name: 'langchain-ai/langchain',
+                stargazers_count: 89200,
+                description: '用于构建由语言模型驱动的应用程序框架',
+                language: 'Python',
+                forks_count: 15600,
+                html_url: 'https://github.com/langchain-ai/langchain',
+                topics: ['ai', 'llm', 'langchain', 'machine-learning']
+            },
+            {
+                name: 'MidJourney Prompt Helper',
+                full_name: 'midjourney/midjourney',
+                stargazers_count: 78500,
+                description: 'MidJourney提示词助手，帮助用户生成高质量的AI绘画提示词',
+                language: 'TypeScript',
+                forks_count: 8900,
+                html_url: 'https://github.com/midjourney/midjourney',
+                topics: ['ai', 'midjourney', 'prompt-engineering', 'image-generation']
+            },
+            {
+                name: 'FastAPI',
+                full_name: 'tiangolo/fastapi',
+                stargazers_count: 73200,
+                description: '现代、快速（高性能）的Web框架，用于构建API',
+                language: 'Python',
+                forks_count: 10800,
+                html_url: 'https://github.com/tiangolo/fastapi',
+                topics: ['python', 'api', 'web-framework', 'async']
+            },
+            {
+                name: 'React',
+                full_name: 'facebook/react',
+                stargazers_count: 215000,
+                description: '用于构建用户界面的JavaScript库',
+                language: 'JavaScript',
+                forks_count: 45600,
+                html_url: 'https://github.com/facebook/react',
+                topics: ['react', 'javascript', 'frontend', 'ui']
+            },
+            {
+                name: 'Vue.js',
+                full_name: 'vuejs/core',
+                stargazers_count: 203000,
+                description: '渐进式JavaScript框架，用于构建用户界面',
+                language: 'JavaScript',
+                forks_count: 31200,
+                html_url: 'https://github.com/vuejs/core',
+                topics: ['vue', 'javascript', 'frontend', 'framework']
+            },
+            {
+                name: 'TensorFlow',
+                full_name: 'tensorflow/tensorflow',
+                stargazers_count: 185000,
+                description: '开源机器学习框架',
+                language: 'Python',
+                forks_count: 79800,
+                html_url: 'https://github.com/tensorflow/tensorflow',
+                topics: ['machine-learning', 'deep-learning', 'ai', 'tensorflow']
+            },
+            {
+                name: 'PyTorch',
+                full_name: 'pytorch/pytorch',
+                stargazers_count: 72400,
+                description: '基于Python的科学计算包，用于构建深度学习模型',
+                language: 'Python',
+                forks_count: 24500,
+                html_url: 'https://github.com/pytorch/pytorch',
+                topics: ['machine-learning', 'deep-learning', 'ai', 'pytorch']
+            }
+        ];
+
+        // 获取语言颜色
+        function getLanguageColor(language) {
+            const colors = {
+                'Python': 'python',
+                'JavaScript': 'javascript',
+                'Java': 'java',
+                'Go': 'go',
+                'PHP': 'php',
+                'C++': 'cpp',
+                'C': 'cpp',
+                'TypeScript': 'blue',
+                'Rust': 'rust',
+                'Swift': 'swift',
+                'Ruby': 'ruby',
+                'C#': 'csharp'
+            };
+            
+            return colors[language] || 'gray';
+        }
+
+        // 获取语言图标
+        function getLanguageIcon(language) {
+            const icons = {
+                'Python': '<i class="fab fa-python text-xl"></i>',
+                'JavaScript': '<i class="fab fa-js-square text-xl"></i>',
+                'Java': '<i class="fab fa-java text-xl"></i>',
+                'Go': '<i class="fab fa-golang text-xl"></i>',
+                'PHP': '<i class="fab fa-php text-xl"></i>',
+                'C++': '<i class="fas fa-c text-xl"></i>',
+                'C': '<i class="fas fa-c text-xl"></i>',
+                'TypeScript': '<i class="fab fa-js-square text-xl"></i>',
+                'Rust': '<i class="fas fa-c text-xl"></i>',
+                'Swift': '<i class="fas fa-apple text-xl"></i>',
+                'Ruby': '<i class="fas fa-gem text-xl"></i>',
+                'C#': '<i class="fas fa-c text-xl"></i>'
+            };
+            
+            return icons[language] || '<i class="fas fa-code text-xl"></i>';
+        }
+
+        // 格式化数字
+        function formatNumber(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1) + 'M';
+            } else if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'k';
+            }
+            return num.toString();
+        }
+
+        // 创建项目卡片
+        function createProjectCard(project) {
+            const card = document.createElement('div');
+            card.className = 'bg-white rounded-xl shadow-lg overflow-hidden project-card animate-fade-in';
+            
+            const languageColor = getLanguageColor(project.language);
+            const languageIcon = getLanguageIcon(project.language);
+            
+            card.innerHTML = `
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-${languageColor}/20 rounded-lg flex items-center justify-center">
+                                ${languageIcon}
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-gray-800">${project.name}</h4>
+                                <p class="text-gray-500 text-sm">${project.full_name}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-star text-star star-animation"></i>
+                            <span class="text-gray-600 font-medium">${formatNumber(project.stargazers_count)}</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4 line-clamp-2">
+                        ${project.description || '暂无描述'}
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="px-3 py-1 bg-${languageColor}/20 text-${languageColor} rounded-full text-sm language-badge">${project.language}</span>
+                        ${project.topics.slice(0, 2).map(topic => `
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm language-badge">${topic}</span>
+                        `).join('')}
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center space-x-4 text-gray-500 text-sm">
+                            <span class="flex items-center">
+                                <i class="fas fa-code-fork mr-1"></i>
+                                ${formatNumber(project.forks_count)}
+                            </span>
+                            <span class="flex items-center">
+                                <i class="fas fa-eye mr-1"></i>
+                                ${formatNumber(Math.floor(project.stargazers_count * 2.5))}
+                            </span>
+                        </div>
+                        <a href="${project.html_url}" target="_blank" class="text-primary hover:text-primary/80 font-medium flex items-center space-x-1">
+                            <span>查看项目</span>
+                            <i class="fas fa-external-link-alt text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // 加载项目数据
+        function loadProjects() {
+            const container = document.getElementById('projects-container');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            
+            // 模拟加载延迟
+            setTimeout(() => {
+                loadingIndicator.remove();
+                
+                // 清空容器
+                container.innerHTML = '';
+                
+                // 添加项目卡片
+                githubProjects.forEach(project => {
+                    const card = createProjectCard(project);
+                    container.appendChild(card);
+                });
+                
+                // 更新更新时间
+                const now = new Date();
+                const formattedDate = now.getFullYear() + '-' + 
+                                    String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                                    String(now.getDate()).padStart(2, '0') + ' ' +
+                                    String(now.getHours()).padStart(2, '0') + ':' +
+                                    String(now.getMinutes()).padStart(2, '0');
+                
+                document.getElementById('last-update').textContent = `今日更新时间：${formattedDate}`;
+            }, 1500);
+        }
+
+        // 页面加载完成后加载项目
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProjects();
+        });
+
+        // 滚动动画
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // 观察所有需要动画的元素
+        document.querySelectorAll('.animate-slide-up, .animate-fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
